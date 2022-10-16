@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Captive Portal Controller</string>
+    <string name="enable_cp_controller">Enable controller</string>
+    <string name="error_no_permission"><b>Captive Portal Controller</b> cannot be enabled unless it can write to Android settings. To do this, run the following command in a root or ADB shell:</string>
+    <string name="cp_mode">Mode</string>
+    <string name="cp_mode_no_detect">Disable detection</string>
+    <string name="cp_mode_display_prompt">Detect and display prompt</string>
+    <string name="cp_mode_disconnect_forever_on_detection">Detect but disconnect forever</string>
+    <string name="restart_immediately">You must restart immediately to apply the changes.</string>
+    <string name="cp_status">Status</string>
+    <string name="cp_custom_servers">Custom servers</string>
+    <string name="save_cp_servers">Save</string>
+</resources>
