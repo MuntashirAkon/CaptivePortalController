@@ -1,8 +1,10 @@
 package io.github.muntashirakon.captiveportalcontroller;
 
-import android.Manifest;
 import android.app.Activity;
-import android.app.AlertDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
@@ -13,15 +15,32 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
 
-public class MainActivity extends Activity implements AdapterView.OnItemSelectedListener {
+public class MainActivity extends Activity implements AdapterView.OnItemSelectedListener, CompoundButton.OnCheckedChangeListener {
+    private Switch enableSwitch;
     private AutoCompleteTextView captivePortalHttpsUrl;
     private AutoCompleteTextView captivePortalHttpUrl;
     private AutoCompleteTextView captivePortalFallbackUrl;
     private AutoCompleteTextView captivePortalOtherFallbackUrls;
+
+    private final BroadcastReceiver cpControllerWatcher = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            String caller = intent.getStringExtra(Utils.EXTRA_CALLER);
+            if (Utils.ACTION_CP_CONTROLLER_CHANGED.equals(action) && !MainActivity.class.getName().equals(caller)) {
+                if (enableSwitch != null) {
+                    enableSwitch.setOnCheckedChangeListener(null);
+                    enableSwitch.setChecked(ConnectivityManager.controllerEnabled(MainActivity.this));
+                    enableSwitch.setOnCheckedChangeListener(MainActivity.this);
+                }
+            }
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,24 +48,9 @@ public class MainActivity extends Activity implements AdapterView.OnItemSelected
         setContentView(R.layout.activity_main);
         ConnectivityManager.initPrefsIfNotAlready(this);
         ConnectivityManager.checkCaptivePortalMode(this);
-        Switch enableSwitch = findViewById(android.R.id.toggle);
+        enableSwitch = findViewById(android.R.id.toggle);
         enableSwitch.setChecked(ConnectivityManager.controllerEnabled(this));
-        enableSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            if (isChecked) {
-                if (ConnectivityManager.canWriteToGlobalSettings(this)) {
-                    // Permission granted, enable controller
-                    ConnectivityManager.setControllerEnabled(this, true);
-                } else {
-                    // Permission not granted, display warning
-                    // No chance of race-condition here
-                    enableSwitch.setChecked(false);
-                    displayPermissionMessage();
-                }
-            } else {
-                // Disable controller
-                ConnectivityManager.setControllerEnabled(this, false);
-            }
-        });
+        enableSwitch.setOnCheckedChangeListener(this);
         Spinner mode = findViewById(R.id.spinner);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             mode.setAdapter(ArrayAdapter.createFromResource(this, R.array.cp_modes, android.R.layout.simple_list_item_1));
@@ -88,6 +92,31 @@ public class MainActivity extends Activity implements AdapterView.OnItemSelected
             // Regenerate summary
             summary.setText(generateSummary());
         });
+        registerReceiver(cpControllerWatcher, new IntentFilter(Utils.ACTION_CP_CONTROLLER_CHANGED));
+    }
+
+    @Override
+    protected void onDestroy() {
+        unregisterReceiver(cpControllerWatcher);
+        super.onDestroy();
+    }
+
+    @Override
+    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+        if (isChecked) {
+            if (ConnectivityManager.canWriteToGlobalSettings(this)) {
+                // Permission granted, enable controller
+                ConnectivityManager.setControllerEnabled(this, true, MainActivity.class.getName());
+            } else {
+                // Permission not granted, display warning
+                // No chance of race-condition here
+                enableSwitch.setChecked(false);
+                Utils.getPermissionDialog(this).show();
+            }
+        } else {
+            // Disable controller
+            ConnectivityManager.setControllerEnabled(this, false, MainActivity.class.getName());
+        }
     }
 
     @Override
@@ -98,19 +127,6 @@ public class MainActivity extends Activity implements AdapterView.OnItemSelected
 
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
-    }
-
-    public void displayPermissionMessage() {
-        View view = View.inflate(this, R.layout.dialog_no_permission, null);
-        TextView tv = view.findViewById(android.R.id.text1);
-        tv.setText(String.format("pm grant %s %s", BuildConfig.APPLICATION_ID, Manifest.permission.WRITE_SECURE_SETTINGS));
-        tv.setKeyListener(null);
-        tv.setSelectAllOnFocus(true);
-        tv.requestFocus();
-        new AlertDialog.Builder(this)
-                .setView(view)
-                .setNegativeButton(android.R.string.ok, null)
-                .show();
     }
 
     public CharSequence generateSummary() {

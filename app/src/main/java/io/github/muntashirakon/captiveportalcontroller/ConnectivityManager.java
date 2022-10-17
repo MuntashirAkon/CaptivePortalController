@@ -2,6 +2,7 @@ package io.github.muntashirakon.captiveportalcontroller;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Build;
@@ -163,9 +164,11 @@ public final class ConnectivityManager {
         return false;
     }
 
-    public static void setControllerEnabled(Context context, boolean enabled) {
+    public static void setControllerEnabled(Context context, boolean enabled, String caller) {
         SharedPreferences prefs = context.getSharedPreferences("prefs", Context.MODE_PRIVATE);
         prefs.edit().putBoolean("controller_enabled", enabled).apply();
+        checkCaptivePortalMode(context);
+        context.sendBroadcast(new Intent(Utils.ACTION_CP_CONTROLLER_CHANGED).putExtra(Utils.EXTRA_CALLER, caller));
     }
 
     public static void setCaptivePortalMode(Context context, int mode) {

@@ -10,4 +10,6 @@
     <string name="cp_status">Status</string>
     <string name="cp_custom_servers">Custom servers</string>
     <string name="save_cp_servers">Save</string>
+    <string name="cp_enabled">Enabled</string>
+    <string name="cp_disabled">Disabled</string>
 </resources>
