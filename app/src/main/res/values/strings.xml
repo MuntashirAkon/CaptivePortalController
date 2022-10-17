@@ -6,7 +6,7 @@
     <string name="cp_mode_no_detect">Disable detection</string>
     <string name="cp_mode_display_prompt">Detect and display prompt</string>
     <string name="cp_mode_disconnect_forever_on_detection">Detect but disconnect forever</string>
-    <string name="restart_immediately">You must restart immediately to apply the changes.</string>
+    <string name="re_enable_networking">You may have to re-enable networking (Wi-Fi/Mobile network) to see the changes.</string>
     <string name="cp_status">Status</string>
     <string name="cp_custom_servers">Custom servers</string>
     <string name="save_cp_servers">Save</string>

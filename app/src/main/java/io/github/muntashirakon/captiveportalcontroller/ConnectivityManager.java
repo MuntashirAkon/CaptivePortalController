@@ -187,7 +187,7 @@ public final class ConnectivityManager {
             Settings.Global.putString(context.getContentResolver(), CAPTIVE_PORTAL_OTHER_FALLBACK_URLS, otherFallback);
         }
         Settings.Global.putString(context.getContentResolver(), CAPTIVE_PORTAL_SERVER, http);
-        Toast.makeText(context, R.string.restart_immediately, Toast.LENGTH_SHORT).show();
+        Toast.makeText(context, R.string.re_enable_networking, Toast.LENGTH_SHORT).show();
     }
 
     public static boolean canWriteToGlobalSettings(Context context) {
@@ -209,7 +209,7 @@ public final class ConnectivityManager {
                         ourCaptivePortalMode == 1 ? CAPTIVE_PORTAL_MODE_PROMPT : CAPTIVE_PORTAL_MODE_IGNORE);
             }
             context.sendBroadcast(new Intent(Utils.ACTION_CP_MODE_CHANGED));
-            Toast.makeText(context, R.string.restart_immediately, Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, R.string.re_enable_networking, Toast.LENGTH_SHORT).show();
         }
     }
 }
