@@ -22,6 +22,7 @@ import android.widget.TextView;
 
 public class MainActivity extends Activity implements AdapterView.OnItemSelectedListener, CompoundButton.OnCheckedChangeListener {
     private Switch enableSwitch;
+    private Spinner cpMode;
     private AutoCompleteTextView captivePortalHttpsUrl;
     private AutoCompleteTextView captivePortalHttpUrl;
     private AutoCompleteTextView captivePortalFallbackUrl;
@@ -31,12 +32,12 @@ public class MainActivity extends Activity implements AdapterView.OnItemSelected
         @Override
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
-            String caller = intent.getStringExtra(Utils.EXTRA_CALLER);
-            if (Utils.ACTION_CP_CONTROLLER_CHANGED.equals(action) && !MainActivity.class.getName().equals(caller)) {
-                if (enableSwitch != null) {
-                    enableSwitch.setOnCheckedChangeListener(null);
-                    enableSwitch.setChecked(ConnectivityManager.controllerEnabled(MainActivity.this));
-                    enableSwitch.setOnCheckedChangeListener(MainActivity.this);
+            if (Utils.ACTION_CP_MODE_CHANGED.equals(action)) {
+                if (cpMode != null) {
+                    int newMode = ConnectivityManager.getOurCaptivePortalMode(MainActivity.this);
+                    if (cpMode.getSelectedItemPosition() != newMode) {
+                        cpMode.setSelection(newMode);
+                    }
                 }
             }
         }
@@ -51,14 +52,14 @@ public class MainActivity extends Activity implements AdapterView.OnItemSelected
         enableSwitch = findViewById(android.R.id.toggle);
         enableSwitch.setChecked(ConnectivityManager.controllerEnabled(this));
         enableSwitch.setOnCheckedChangeListener(this);
-        Spinner mode = findViewById(R.id.spinner);
+        cpMode = findViewById(R.id.spinner);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            mode.setAdapter(ArrayAdapter.createFromResource(this, R.array.cp_modes, android.R.layout.simple_list_item_1));
+            cpMode.setAdapter(ArrayAdapter.createFromResource(this, R.array.cp_modes, android.R.layout.simple_list_item_1));
         } else {
-            mode.setAdapter(ArrayAdapter.createFromResource(this, R.array.cp_modes_pre26, android.R.layout.simple_list_item_1));
+            cpMode.setAdapter(ArrayAdapter.createFromResource(this, R.array.cp_modes_pre26, android.R.layout.simple_list_item_1));
         }
-        mode.setSelection(ConnectivityManager.getOurCaptivePortalMode(this));
-        mode.setOnItemSelectedListener(this);
+        cpMode.setSelection(ConnectivityManager.getOurCaptivePortalMode(this));
+        cpMode.setOnItemSelectedListener(this);
         TextView summary = findViewById(android.R.id.summary);
         summary.setText(generateSummary());
         // Inputs
@@ -92,7 +93,7 @@ public class MainActivity extends Activity implements AdapterView.OnItemSelected
             // Regenerate summary
             summary.setText(generateSummary());
         });
-        registerReceiver(cpControllerWatcher, new IntentFilter(Utils.ACTION_CP_CONTROLLER_CHANGED));
+        registerReceiver(cpControllerWatcher, new IntentFilter(Utils.ACTION_CP_MODE_CHANGED));
     }
 
     @Override

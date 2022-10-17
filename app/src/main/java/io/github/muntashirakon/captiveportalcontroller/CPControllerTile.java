@@ -12,14 +12,16 @@ public class CPControllerTile extends TileService {
     public void onTileAdded() {
         super.onTileAdded();
         boolean controllerEnabled = ConnectivityManager.controllerEnabled(getApplicationContext());
-        updateTile(controllerEnabled);
+        boolean detectionEnabled = ConnectivityManager.getOurCaptivePortalMode(getApplicationContext()) == ConnectivityManager.CAPTIVE_PORTAL_MODE_PROMPT;
+        updateTile(controllerEnabled, detectionEnabled);
     }
 
     @Override
     public void onStartListening() {
         super.onStartListening();
         boolean controllerEnabled = ConnectivityManager.controllerEnabled(getApplicationContext());
-        updateTile(controllerEnabled);
+        boolean detectionEnabled = ConnectivityManager.getOurCaptivePortalMode(getApplicationContext()) == ConnectivityManager.CAPTIVE_PORTAL_MODE_PROMPT;
+        updateTile(controllerEnabled, detectionEnabled);
     }
 
     @Override
@@ -31,20 +33,31 @@ public class CPControllerTile extends TileService {
         }
         if (ConnectivityManager.canWriteToGlobalSettings(getApplicationContext())) {
             // Permission present
-            boolean controllerEnabled = !ConnectivityManager.controllerEnabled(getApplicationContext());
-            ConnectivityManager.setControllerEnabled(this, controllerEnabled, CPControllerTile.class.getName());
-            updateTile(controllerEnabled);
+            boolean controllerEnabled = ConnectivityManager.controllerEnabled(getApplicationContext());
+            boolean detectionEnabled = !(ConnectivityManager.getOurCaptivePortalMode(getApplicationContext()) == ConnectivityManager.CAPTIVE_PORTAL_MODE_PROMPT);
+            ConnectivityManager.setCaptivePortalMode(getApplicationContext(), detectionEnabled ? ConnectivityManager.CAPTIVE_PORTAL_MODE_PROMPT : ConnectivityManager.CAPTIVE_PORTAL_MODE_IGNORE);
+            updateTile(controllerEnabled, detectionEnabled);
         } else {
             // Permission not present
             showDialog(Utils.getPermissionDialog(this));
+            updateTile(false, true);
         }
     }
 
-    public void updateTile(boolean controllerEnabled) {
+    public void updateTile(boolean controllerEnabled, boolean detectionEnabled) {
         Tile tile = getQsTile();
-        tile.setState(controllerEnabled ? Tile.STATE_ACTIVE : Tile.STATE_INACTIVE);
+        int state;
+        CharSequence subtitle;
+        if (!controllerEnabled) {
+            state = Tile.STATE_UNAVAILABLE;
+            subtitle = null;
+        } else {
+            state = detectionEnabled ? Tile.STATE_ACTIVE : Tile.STATE_INACTIVE;
+            subtitle = getString(detectionEnabled ? R.string.cp_enabled : R.string.cp_disabled);
+        }
+        tile.setState(state);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            tile.setSubtitle(getString(controllerEnabled ? R.string.cp_enabled : R.string.cp_disabled));
+            tile.setSubtitle(subtitle);
         }
         tile.updateTile();
     }

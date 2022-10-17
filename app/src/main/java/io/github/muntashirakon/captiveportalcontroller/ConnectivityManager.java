@@ -168,7 +168,6 @@ public final class ConnectivityManager {
         SharedPreferences prefs = context.getSharedPreferences("prefs", Context.MODE_PRIVATE);
         prefs.edit().putBoolean("controller_enabled", enabled).apply();
         checkCaptivePortalMode(context);
-        context.sendBroadcast(new Intent(Utils.ACTION_CP_CONTROLLER_CHANGED).putExtra(Utils.EXTRA_CALLER, caller));
     }
 
     public static void setCaptivePortalMode(Context context, int mode) {
@@ -209,6 +208,7 @@ public final class ConnectivityManager {
                 Settings.Global.putInt(context.getContentResolver(), CAPTIVE_PORTAL_DETECTION_ENABLED,
                         ourCaptivePortalMode == 1 ? CAPTIVE_PORTAL_MODE_PROMPT : CAPTIVE_PORTAL_MODE_IGNORE);
             }
+            context.sendBroadcast(new Intent(Utils.ACTION_CP_MODE_CHANGED));
             Toast.makeText(context, R.string.restart_immediately, Toast.LENGTH_SHORT).show();
         }
     }

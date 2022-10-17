@@ -7,8 +7,7 @@ import android.view.View;
 import android.widget.TextView;
 
 public final class Utils {
-    public static final String ACTION_CP_CONTROLLER_CHANGED = BuildConfig.APPLICATION_ID + ".action.CP_CONTROLLER_CHANGED";
-    public static final String EXTRA_CALLER = "caller";
+    public static final String ACTION_CP_MODE_CHANGED = BuildConfig.APPLICATION_ID + ".action.CP_MODE_CHANGED";
 
     public static AlertDialog getPermissionDialog(Context context) {
         View view = View.inflate(context, R.layout.dialog_no_permission, null);
