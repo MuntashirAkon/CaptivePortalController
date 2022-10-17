@@ -1,0 +1,11 @@
+<b>Captive Portal Controller</b> lets you control how Android detects captive portal.
+
+<b>NOTE:</b> In many OEM provided ROMs, it is NOT a privacy feature because these ROMs are able to bypass captive portal settings.
+
+<b>Features</b>
+<ul>
+    <li>Enable/disable captive portal detection</li>
+    <li>Set captive portal servers (with presets from GrapheneOS, Kuketz and Google)</li>
+    <li>A quick setting tile to toggle captive portal detection</li>
+    <li>Less than 100KB app as you don't need to use it frequently</li>
+</ul>
