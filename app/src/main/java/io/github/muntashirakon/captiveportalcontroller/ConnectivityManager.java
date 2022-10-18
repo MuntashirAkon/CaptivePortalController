@@ -174,7 +174,7 @@ public final class ConnectivityManager {
         return false;
     }
 
-    public static void setControllerEnabled(Context context, boolean enabled, String caller) {
+    public static void setControllerEnabled(Context context, boolean enabled) {
         SharedPreferences prefs = context.getSharedPreferences("prefs", Context.MODE_PRIVATE);
         prefs.edit().putBoolean("controller_enabled", enabled).apply();
         checkCaptivePortalMode(context);

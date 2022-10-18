@@ -124,7 +124,7 @@ public class MainActivity extends Activity implements AdapterView.OnItemSelected
         if (isChecked) {
             if (ConnectivityManager.canWriteToGlobalSettings(this)) {
                 // Permission granted, enable controller
-                ConnectivityManager.setControllerEnabled(this, true, MainActivity.class.getName());
+                ConnectivityManager.setControllerEnabled(this, true);
             } else {
                 // Permission not granted, display warning
                 // No chance of race-condition here
@@ -133,7 +133,7 @@ public class MainActivity extends Activity implements AdapterView.OnItemSelected
             }
         } else {
             // Disable controller
-            ConnectivityManager.setControllerEnabled(this, false, MainActivity.class.getName());
+            ConnectivityManager.setControllerEnabled(this, false);
         }
     }
 
