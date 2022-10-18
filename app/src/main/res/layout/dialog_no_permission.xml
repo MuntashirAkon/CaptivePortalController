@@ -12,6 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingBottom="16dp"
+        android:textAppearance="?android:attr/textAppearance"
         android:text="@string/error_no_permission"/>
 
     <TextView
@@ -22,6 +23,7 @@
         android:focusable="true"
         android:clickable="true"
         android:fontFamily="monospace"
+        android:textAppearance="?android:attr/textAppearance"
         tools:text="pm grant io.github.muntashirakon.captiveportalcontroller android.permission.WRITE_SECURE_SETTINGS" />
 
 </LinearLayout>

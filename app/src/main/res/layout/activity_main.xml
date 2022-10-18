@@ -22,7 +22,7 @@
                 android:id="@android:id/toggle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceListItem"
+                android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="@string/enable_cp_controller" />
 
         </LinearLayout>
@@ -34,17 +34,20 @@
             android:paddingVertical="8dp">
 
             <TextView
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textAppearance="?android:attr/textAppearanceListItem"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="0"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:gravity="center_vertical"
                 android:text="@string/cp_mode" />
 
             <Spinner
                 android:id="@+id/spinner"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="0"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
                 android:spinnerMode="dropdown" />
 
         </LinearLayout>
@@ -61,7 +64,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceListItem"
+                android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="@string/cp_status" />
 
             <TextView
@@ -70,7 +73,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:textIsSelectable="true"
-                android:textAppearance="?android:attr/textAppearanceListItemSecondary"
+                android:textAppearance="?android:attr/textAppearance"
                 tools:text="Display status" />
 
         </LinearLayout>
@@ -88,13 +91,13 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceListItem"
+                android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="@string/cp_custom_servers" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceListItemSecondary"
+                android:textAppearance="?android:attr/textAppearanceSmall"
                 android:text="@string/cp_custom_servers_description" />
 
             <AutoCompleteTextView
@@ -158,13 +161,13 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceListItem"
+                android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="@string/cp_custom_user_agent" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceListItemSecondary"
+                android:textAppearance="?android:attr/textAppearanceSmall"
                 android:text="@string/cp_custom_user_agent_description" />
 
             <EditText
