@@ -197,7 +197,9 @@ public final class ConnectivityManager {
             Settings.Global.putString(context.getContentResolver(), CAPTIVE_PORTAL_OTHER_FALLBACK_URLS, otherFallback);
         }
         String serverHost;
-        if (http.startsWith("http://") || http.startsWith("https://")) {
+        if (http == null) {
+            serverHost = null;
+        } else if (http.startsWith("http://") || http.startsWith("https://")) {
             serverHost = Uri.parse(http).getHost();
         } else {
             serverHost = Uri.parse("http://" + http).getHost();
