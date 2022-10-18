@@ -1,0 +1,5 @@
+- UI improvements
+- Option to set user agent (Android 8+)
+- Fixed support for Android 7.1 and earlier
+- Improved documentations
+- Updated target SDK to 33
