@@ -149,9 +149,10 @@ public class MainActivity extends Activity implements AdapterView.OnItemSelected
 
     public CharSequence generateSummary() {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
-            return String.format("HTTP: %s\nUser agent: %s",
-                    Settings.Global.getString(getContentResolver(), ConnectivityManager.CAPTIVE_PORTAL_SERVER),
-                    userAgent);
+            boolean https = ConnectivityManager.useHttps(this);
+            String serverHost = Settings.Global.getString(getContentResolver(), ConnectivityManager.CAPTIVE_PORTAL_SERVER);
+            String serverUrl = String.format("%s://%s%s", https ? "https" : "http", serverHost, "/generate_204");
+            return String.format("HTTP: %s\nUser agent: %s", serverUrl, userAgent);
         }
         String userAgent = Settings.Global.getString(getContentResolver(), ConnectivityManager.CAPTIVE_PORTAL_USER_AGENT);
         return String.format("HTTPS: %s\nHTTP: %s\nFallback 1: %s\nFallback 2: %s\nUser agent: %s",

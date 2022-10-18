@@ -11,22 +11,22 @@
     </array>
     <string-array name="captive_portal_https_url_hints">
         <item>https://connectivitycheck.grapheneos.network/generate_204</item>
-        <item>https://captiveportal.kuketz.de</item>
+        <item>https://captiveportal.kuketz.de/generate_204</item>
         <item>https://www.google.com/generate_204</item>
     </string-array>
     <string-array name="captive_portal_http_url_hints">
         <item>http://connectivitycheck.grapheneos.network/generate_204</item>
-        <item>http://captiveportal.kuketz.de</item>
+        <item>http://captiveportal.kuketz.de/generate_204</item>
         <item>http://connectivitycheck.gstatic.com/generate_204</item>
     </string-array>
     <string-array name="captive_portal_fallback_url_hints">
         <item>http://grapheneos.online/gen_204</item>
-        <item>http://captiveportal.kuketz.de</item>
+        <item>http://captiveportal.kuketz.de/gen_204</item>
         <item>http://www.google.com/gen_204</item>
     </string-array>
     <string-array name="captive_portal_other_fallback_urls_hints">
         <item>http://grapheneos.online/generate_204</item>
-        <item>http://captiveportal.kuketz.de</item>
+        <item>http://captiveportal.kuketz.de/generate_204</item>
         <item>http://play.googleapis.com/generate_204</item>
     </string-array>
 </resources>

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Process;
 import android.provider.Settings;
@@ -124,6 +125,13 @@ public final class ConnectivityManager {
         return prefs.getInt(CAPTIVE_PORTAL_MODE, 1);
     }
 
+    public static boolean useHttps(Context context) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            return Settings.Global.getInt(context.getContentResolver(), CAPTIVE_PORTAL_USE_HTTPS, 1) == 1;
+        }
+        return false;
+    }
+
     public static void initPrefsIfNotAlready(Context context) {
         SharedPreferences prefs = context.getSharedPreferences("prefs", Context.MODE_PRIVATE);
         if (prefs.contains("controller_enabled")) {
@@ -139,8 +147,10 @@ public final class ConnectivityManager {
             captivePortalFallbackUrl = Settings.Global.getString(context.getContentResolver(), CAPTIVE_PORTAL_FALLBACK_URL);
             captivePortalOtherFallbackUrls = Settings.Global.getString(context.getContentResolver(), CAPTIVE_PORTAL_OTHER_FALLBACK_URLS);
         } else {
+            boolean https = ConnectivityManager.useHttps(context);
+            String serverHost = Settings.Global.getString(context.getContentResolver(), ConnectivityManager.CAPTIVE_PORTAL_SERVER);
             captivePortalHttpsUrl = null;
-            captivePortalHttpUrl = Settings.Global.getString(context.getContentResolver(), CAPTIVE_PORTAL_SERVER);
+            captivePortalHttpUrl = String.format("%s://%s%s", https ? "https" : "http", serverHost, "/generate_204");
             captivePortalFallbackUrl = null;
             captivePortalOtherFallbackUrls = null;
         }
@@ -186,7 +196,13 @@ public final class ConnectivityManager {
             Settings.Global.putString(context.getContentResolver(), CAPTIVE_PORTAL_FALLBACK_URL, fallback);
             Settings.Global.putString(context.getContentResolver(), CAPTIVE_PORTAL_OTHER_FALLBACK_URLS, otherFallback);
         }
-        Settings.Global.putString(context.getContentResolver(), CAPTIVE_PORTAL_SERVER, http);
+        String serverHost;
+        if (http.startsWith("http://") || http.startsWith("https://")) {
+            serverHost = Uri.parse(http).getHost();
+        } else {
+            serverHost = Uri.parse("http://" + http).getHost();
+        }
+        Settings.Global.putString(context.getContentResolver(), CAPTIVE_PORTAL_SERVER, serverHost);
         Toast.makeText(context, R.string.re_enable_networking, Toast.LENGTH_SHORT).show();
     }
 
