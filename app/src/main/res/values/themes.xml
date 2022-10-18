@@ -1,4 +1,5 @@
 <resources>
     <style name="Theme.CaptivePortalController" parent="android:Theme.DeviceDefault.Light">
+        <item name="android:colorAccent">@color/button_background</item>
     </style>
 </resources>

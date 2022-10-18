@@ -1,145 +1,179 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingHorizontal="16dp"
-    android:paddingVertical="8dp">
+    android:layout_height="match_parent">
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textAppearance="?android:attr/textAppearanceListItem"
-            android:text="@string/enable_cp_controller" />
-
-        <Switch
-            android:id="@android:id/toggle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="0" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textAppearance="?android:attr/textAppearanceListItem"
-            android:text="@string/cp_mode" />
-
-        <Spinner
-            android:id="@+id/spinner"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="0"
-            android:spinnerMode="dropdown" />
-
-    </LinearLayout>
-
-    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="8dp">
 
-        <TextView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceListItem"
-            android:text="@string/cp_status" />
+            android:padding="16dp"
+            android:background="@drawable/rounded_rectangle"
+            android:backgroundTint="@color/enable_controller_background">
 
-        <TextView
-            android:id="@android:id/summary"
+            <Switch
+                android:id="@android:id/toggle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceListItem"
+                android:text="@string/enable_cp_controller" />
+
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textIsSelectable="true"
-            android:textAppearance="?android:attr/textAppearanceListItemSecondary"
-            tools:text="Display status" />
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="8dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textAppearance="?android:attr/textAppearanceListItem"
+                android:text="@string/cp_mode" />
+
+            <Spinner
+                android:id="@+id/spinner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0"
+                android:spinnerMode="dropdown" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp"
+            android:background="@drawable/rounded_border_16"
+            android:backgroundTint="@color/border_color">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceListItem"
+                android:text="@string/cp_status" />
+
+            <TextView
+                android:id="@android:id/summary"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:textIsSelectable="true"
+                android:textAppearance="?android:attr/textAppearanceListItemSecondary"
+                tools:text="Display status" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/rounded_border_16"
+            android:backgroundTint="@color/border_color">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceListItem"
+                android:text="@string/cp_custom_servers" />
+
+            <AutoCompleteTextView
+                style="@style/Widget.CaptivePortalController.AutoCompleteTextView"
+                android:id="@+id/captive_portal_https_url"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:hint="captive_portal_https_url"
+                android:inputType="textUri" />
+
+            <AutoCompleteTextView
+                style="@style/Widget.CaptivePortalController.AutoCompleteTextView"
+                android:id="@+id/captive_portal_http_url"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:hint="captive_portal_http_url"
+                android:inputType="textUri" />
+
+            <AutoCompleteTextView
+                style="@style/Widget.CaptivePortalController.AutoCompleteTextView"
+                android:id="@+id/captive_portal_fallback_url"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:hint="captive_portal_fallback_url"
+                android:inputType="textUri" />
+
+            <AutoCompleteTextView
+                style="@style/Widget.CaptivePortalController.AutoCompleteTextView"
+                android:id="@+id/captive_portal_other_fallback_urls"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:hint="captive_portal_other_fallback_urls"
+                android:inputType="textUri" />
+
+            <Button
+                android:id="@android:id/button1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:text="@string/save_cp_servers"
+                android:backgroundTint="@color/button_background"
+                android:textColor="@color/button_foreground" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/user_agent_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/rounded_border_16"
+            android:backgroundTint="@color/border_color">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceListItem"
+                android:text="@string/cp_user_agent" />
+
+            <EditText
+                style="@style/Widget.CaptivePortalController.EditText"
+                android:id="@+id/captive_portal_user_agent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:hint="@string/cp_user_agent"
+                android:text="@string/cp_default_user_agent"
+                android:inputType="textNoSuggestions"
+                android:importantForAutofill="no" />
+
+            <Button
+                android:id="@android:id/button2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:text="@string/save_cp_servers"
+                android:backgroundTint="@color/button_background"
+                android:textColor="@color/button_foreground" />
+
+        </LinearLayout>
 
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceListItem"
-            android:text="@string/cp_custom_servers" />
-
-        <AutoCompleteTextView
-            android:id="@+id/captive_portal_https_url"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="captive_portal_https_url"
-            android:inputType="textUri" />
-
-        <AutoCompleteTextView
-            android:id="@+id/captive_portal_http_url"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="captive_portal_http_url"
-            android:inputType="textUri" />
-
-        <AutoCompleteTextView
-            android:id="@+id/captive_portal_fallback_url"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="captive_portal_fallback_url"
-            android:inputType="textUri" />
-
-        <AutoCompleteTextView
-            android:id="@+id/captive_portal_other_fallback_urls"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="captive_portal_other_fallback_urls"
-            android:inputType="textUri" />
-
-        <Button
-            android:id="@android:id/button1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/save_cp_servers" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/user_agent_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceListItem"
-            android:text="@string/cp_user_agent" />
-
-        <EditText
-            android:id="@+id/captive_portal_user_agent"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/cp_user_agent"
-            android:text="@string/cp_default_user_agent"
-            android:inputType="textNoSuggestions" />
-
-        <Button
-            android:id="@android:id/button2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/save_cp_servers" />
-
-    </LinearLayout>
-
-</LinearLayout>
+</ScrollView>
