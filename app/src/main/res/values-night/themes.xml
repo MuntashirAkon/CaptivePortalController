@@ -1,4 +1,4 @@
 <resources>
-    <style name="Theme.CaptivePortalController" parent="android:Theme.Holo">
+    <style name="Theme.CaptivePortalController" parent="android:Theme.DeviceDefault">
     </style>
 </resources>
