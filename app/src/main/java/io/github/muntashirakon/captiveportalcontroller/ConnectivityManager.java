@@ -205,7 +205,7 @@ public final class ConnectivityManager {
             serverHost = Uri.parse("http://" + http).getHost();
         }
         Settings.Global.putString(context.getContentResolver(), CAPTIVE_PORTAL_SERVER, serverHost);
-        Toast.makeText(context, R.string.re_enable_networking, Toast.LENGTH_SHORT).show();
+        Toast.makeText(context, R.string.re_enable_networking, Toast.LENGTH_LONG).show();
     }
 
     public static void setCaptivePortalUserAgent(Context context, String userAgentString) {
@@ -214,7 +214,7 @@ public final class ConnectivityManager {
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             Settings.Global.putString(context.getContentResolver(), CAPTIVE_PORTAL_USER_AGENT, userAgentString);
-            Toast.makeText(context, R.string.re_enable_networking, Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, R.string.re_enable_networking, Toast.LENGTH_LONG).show();
         }
     }
 
@@ -237,7 +237,7 @@ public final class ConnectivityManager {
                         ourCaptivePortalMode == 1 ? CAPTIVE_PORTAL_MODE_PROMPT : CAPTIVE_PORTAL_MODE_IGNORE);
             }
             context.sendBroadcast(new Intent(Utils.ACTION_CP_MODE_CHANGED));
-            Toast.makeText(context, R.string.re_enable_networking, Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, R.string.re_enable_networking, Toast.LENGTH_LONG).show();
         }
     }
 }
