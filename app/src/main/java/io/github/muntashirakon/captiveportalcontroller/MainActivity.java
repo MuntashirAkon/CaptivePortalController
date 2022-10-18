@@ -30,6 +30,8 @@ public class MainActivity extends Activity implements AdapterView.OnItemSelected
     private AutoCompleteTextView captivePortalFallbackUrl;
     private AutoCompleteTextView captivePortalOtherFallbackUrls;
 
+    private final String userAgent = System.getProperty("http.agent");
+
     private final BroadcastReceiver cpControllerWatcher = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -147,13 +149,16 @@ public class MainActivity extends Activity implements AdapterView.OnItemSelected
 
     public CharSequence generateSummary() {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
-            return Settings.Global.getString(getContentResolver(), ConnectivityManager.CAPTIVE_PORTAL_SERVER);
+            return String.format("HTTP: %s\nUser agent: %s",
+                    Settings.Global.getString(getContentResolver(), ConnectivityManager.CAPTIVE_PORTAL_SERVER),
+                    userAgent);
         }
+        String userAgent = Settings.Global.getString(getContentResolver(), ConnectivityManager.CAPTIVE_PORTAL_USER_AGENT);
         return String.format("HTTPS: %s\nHTTP: %s\nFallback 1: %s\nFallback 2: %s\nUser agent: %s",
                 Settings.Global.getString(getContentResolver(), ConnectivityManager.CAPTIVE_PORTAL_HTTPS_URL),
                 Settings.Global.getString(getContentResolver(), ConnectivityManager.CAPTIVE_PORTAL_HTTP_URL),
                 Settings.Global.getString(getContentResolver(), ConnectivityManager.CAPTIVE_PORTAL_FALLBACK_URL),
                 Settings.Global.getString(getContentResolver(), ConnectivityManager.CAPTIVE_PORTAL_OTHER_FALLBACK_URLS),
-                Settings.Global.getString(getContentResolver(), ConnectivityManager.CAPTIVE_PORTAL_USER_AGENT));
+                userAgent != null ? userAgent : this.userAgent);
     }
 }

@@ -9,9 +9,11 @@
     <string name="re_enable_networking">You may have to re-enable networking (Wi-Fi/Mobile network) to see the changes.</string>
     <string name="cp_status">Status</string>
     <string name="cp_custom_servers">Custom servers</string>
+    <string name="cp_custom_servers_description">Start typing <tt>http</tt> to see suggestions.</string>
     <string name="save_cp_servers">Save</string>
     <string name="cp_enabled">Enabled</string>
     <string name="cp_disabled">Disabled</string>
-    <string name="cp_user_agent">User agent</string>
+    <string name="cp_custom_user_agent">Custom user agent</string>
     <string name="cp_default_user_agent" translatable="false">Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.32 Safari/537.36</string>
+    <string name="cp_custom_user_agent_description">A fixed and widely-used user agent such as the one specified in the field below improves your privacy.</string>
 </resources>
