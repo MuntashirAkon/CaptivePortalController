@@ -16,6 +16,8 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -78,9 +80,9 @@ public class MainActivity extends Activity implements AdapterView.OnItemSelected
         captivePortalHttpUrl.setAdapter(ArrayAdapter.createFromResource(this, R.array.captive_portal_http_url_hints, android.R.layout.simple_list_item_1));
         captivePortalFallbackUrl.setAdapter(ArrayAdapter.createFromResource(this, R.array.captive_portal_fallback_url_hints, android.R.layout.simple_list_item_1));
         captivePortalOtherFallbackUrls.setAdapter(ArrayAdapter.createFromResource(this, R.array.captive_portal_other_fallback_urls_hints, android.R.layout.simple_list_item_1));
-
-        Button saveButton = findViewById(android.R.id.button1);
-        saveButton.setOnClickListener(v -> {
+        // Save servers
+        Button saveServersButton = findViewById(android.R.id.button1);
+        saveServersButton.setOnClickListener(v -> {
             Editable https = captivePortalHttpsUrl.getText();
             Editable http = captivePortalHttpUrl.getText();
             Editable fallback = captivePortalFallbackUrl.getText();
@@ -90,6 +92,19 @@ public class MainActivity extends Activity implements AdapterView.OnItemSelected
                     TextUtils.isEmpty(http) ? null : http.toString(),
                     TextUtils.isEmpty(fallback) ? null : fallback.toString(),
                     TextUtils.isEmpty(otherFallback) ? null : otherFallback.toString());
+            // Regenerate summary
+            summary.setText(generateSummary());
+        });
+        // User agent
+        LinearLayout uaLayout = findViewById(R.id.user_agent_layout);
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
+            uaLayout.setVisibility(View.GONE);
+        }
+        EditText uaInput = findViewById(R.id.captive_portal_user_agent);
+        Button saveUaButton = findViewById(android.R.id.button2);
+        saveUaButton.setOnClickListener(v -> {
+            Editable ua = uaInput.getText();
+            ConnectivityManager.setCaptivePortalUserAgent(this, TextUtils.isEmpty(ua) ? null : ua.toString());
             // Regenerate summary
             summary.setText(generateSummary());
         });
@@ -134,10 +149,11 @@ public class MainActivity extends Activity implements AdapterView.OnItemSelected
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
             return Settings.Global.getString(getContentResolver(), ConnectivityManager.CAPTIVE_PORTAL_SERVER);
         }
-        return String.format("HTTPS: %s\nHTTP: %s\nFallback 1: %s\nFallback 2: %s",
+        return String.format("HTTPS: %s\nHTTP: %s\nFallback 1: %s\nFallback 2: %s\nUser agent: %s",
                 Settings.Global.getString(getContentResolver(), ConnectivityManager.CAPTIVE_PORTAL_HTTPS_URL),
                 Settings.Global.getString(getContentResolver(), ConnectivityManager.CAPTIVE_PORTAL_HTTP_URL),
                 Settings.Global.getString(getContentResolver(), ConnectivityManager.CAPTIVE_PORTAL_FALLBACK_URL),
-                Settings.Global.getString(getContentResolver(), ConnectivityManager.CAPTIVE_PORTAL_OTHER_FALLBACK_URLS));
+                Settings.Global.getString(getContentResolver(), ConnectivityManager.CAPTIVE_PORTAL_OTHER_FALLBACK_URLS),
+                Settings.Global.getString(getContentResolver(), ConnectivityManager.CAPTIVE_PORTAL_USER_AGENT));
     }
 }

@@ -12,4 +12,6 @@
     <string name="save_cp_servers">Save</string>
     <string name="cp_enabled">Enabled</string>
     <string name="cp_disabled">Disabled</string>
+    <string name="cp_user_agent">User agent</string>
+    <string name="cp_default_user_agent" translatable="false">Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.32 Safari/537.36</string>
 </resources>

@@ -190,6 +190,16 @@ public final class ConnectivityManager {
         Toast.makeText(context, R.string.re_enable_networking, Toast.LENGTH_SHORT).show();
     }
 
+    public static void setCaptivePortalUserAgent(Context context, String userAgentString) {
+        if (!canWriteToGlobalSettings(context) || !controllerEnabled(context)) {
+            return;
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            Settings.Global.putString(context.getContentResolver(), CAPTIVE_PORTAL_USER_AGENT, userAgentString);
+            Toast.makeText(context, R.string.re_enable_networking, Toast.LENGTH_SHORT).show();
+        }
+    }
+
     public static boolean canWriteToGlobalSettings(Context context) {
         return context.checkPermission(Manifest.permission.WRITE_SECURE_SETTINGS, Process.myPid(), Process.myUid())
                 == PackageManager.PERMISSION_GRANTED;

@@ -21,7 +21,8 @@
         <Switch
             android:id="@android:id/toggle"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_weight="0" />
 
     </LinearLayout>
 
@@ -40,6 +41,7 @@
             android:id="@+id/spinner"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_weight="0"
             android:spinnerMode="dropdown" />
 
     </LinearLayout>
@@ -106,6 +108,34 @@
 
         <Button
             android:id="@android:id/button1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/save_cp_servers" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/user_agent_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceListItem"
+            android:text="@string/cp_user_agent" />
+
+        <EditText
+            android:id="@+id/captive_portal_user_agent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/cp_user_agent"
+            android:text="@string/cp_default_user_agent"
+            android:inputType="textNoSuggestions" />
+
+        <Button
+            android:id="@android:id/button2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/save_cp_servers" />
