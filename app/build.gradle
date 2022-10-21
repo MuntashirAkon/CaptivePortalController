@@ -18,6 +18,9 @@ android {
         release {
             minifyEnabled false
         }
+        debug {
+            applicationIdSuffix '.debug'
+        }
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
