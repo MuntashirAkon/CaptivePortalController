@@ -16,4 +16,7 @@
     <string name="cp_custom_user_agent">Custom user agent</string>
     <string name="cp_default_user_agent" translatable="false">Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.32 Safari/537.36</string>
     <string name="cp_custom_user_agent_description">A fixed and widely-used user agent such as the one specified in the field below improves your privacy.</string>
+    <string name="custom_ntp_server">Custom NTP/SNTP server</string>
+    <string name="custom_ntp_server_description">The NTP/SNTP server is used when the OS is unable to update time using the mobile network. In most OS, this fallback method is used even when automatic time update is disabled in Settings.</string>
+    <string name="save_ntp_server">Save</string>
 </resources>

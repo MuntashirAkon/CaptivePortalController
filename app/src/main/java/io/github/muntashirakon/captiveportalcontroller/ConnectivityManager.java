@@ -1,10 +1,12 @@
 package io.github.muntashirakon.captiveportalcontroller;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Process;
@@ -112,6 +114,8 @@ public final class ConnectivityManager {
      */
     public static final String CAPTIVE_PORTAL_USER_AGENT = "captive_portal_user_agent";
 
+    public static final String NTP_SERVER = "ntp_server";
+
     public static int getTheirCaptivePortalMode(Context context) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             return Settings.Global.getInt(context.getContentResolver(), CAPTIVE_PORTAL_MODE, CAPTIVE_PORTAL_MODE_PROMPT);
@@ -215,6 +219,38 @@ public final class ConnectivityManager {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             Settings.Global.putString(context.getContentResolver(), CAPTIVE_PORTAL_USER_AGENT, userAgentString);
             Toast.makeText(context, R.string.re_enable_networking, Toast.LENGTH_LONG).show();
+        }
+    }
+
+    public static void setNtpServer(Context context, String ntpServer) {
+        if (!canWriteToGlobalSettings(context) || !controllerEnabled(context)) {
+            return;
+        }
+        String sanitisedNtpServer;
+        if (ntpServer != null) {
+            ntpServer = ntpServer.trim();
+            if (ntpServer.startsWith("http://") || ntpServer.startsWith("https://")) {
+                sanitisedNtpServer = Uri.parse(ntpServer).getHost();
+            } else if (ntpServer.contains("/")) {
+                sanitisedNtpServer = Uri.parse("http://" + ntpServer).getHost();
+            } else {
+                sanitisedNtpServer = ntpServer;
+            }
+        } else {
+            sanitisedNtpServer = null;
+        }
+        Settings.Global.putString(context.getContentResolver(), NTP_SERVER, sanitisedNtpServer);
+    }
+
+    public static String getNtpServer(Context context) {
+        String configuredServer = Settings.Global.getString(context.getContentResolver(), ConnectivityManager.NTP_SERVER);
+        if (configuredServer != null) {
+            return configuredServer;
+        } else {
+            Resources res = Resources.getSystem();
+            @SuppressLint("DiscouragedApi")
+            int id = res.getIdentifier("config_ntpServer", "string", "android");
+            return id != 0 ? res.getString(id) : null;
         }
     }
 

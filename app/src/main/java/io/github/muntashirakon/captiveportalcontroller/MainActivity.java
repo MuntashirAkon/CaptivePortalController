@@ -110,6 +110,15 @@ public class MainActivity extends Activity implements AdapterView.OnItemSelected
             // Regenerate summary
             summary.setText(generateSummary());
         });
+        // (S)NTP Server
+        EditText ntpServerInput = findViewById(R.id.ntp_server);
+        Button saveNtpServerButton = findViewById(android.R.id.button3);
+        saveNtpServerButton.setOnClickListener(v -> {
+            Editable ntpServer = ntpServerInput.getText();
+            ConnectivityManager.setNtpServer(this, TextUtils.isEmpty(ntpServer) ? null : ntpServer.toString());
+            // Regenerate summary
+            summary.setText(generateSummary());
+        });
         registerReceiver(cpControllerWatcher, new IntentFilter(Utils.ACTION_CP_MODE_CHANGED));
     }
 
@@ -152,14 +161,16 @@ public class MainActivity extends Activity implements AdapterView.OnItemSelected
             boolean https = ConnectivityManager.useHttps(this);
             String serverHost = Settings.Global.getString(getContentResolver(), ConnectivityManager.CAPTIVE_PORTAL_SERVER);
             String serverUrl = String.format("%s://%s%s", https ? "https" : "http", serverHost, "/generate_204");
-            return String.format("HTTP: %s\nUser agent: %s", serverUrl, userAgent);
+            return String.format("Server: %s\nUser agent: %s\nNTP server: %s", serverUrl, userAgent,
+                    ConnectivityManager.getNtpServer(this));
         }
         String userAgent = Settings.Global.getString(getContentResolver(), ConnectivityManager.CAPTIVE_PORTAL_USER_AGENT);
-        return String.format("HTTPS: %s\nHTTP: %s\nFallback 1: %s\nFallback 2: %s\nUser agent: %s",
+        return String.format("HTTPS: %s\nHTTP: %s\nFallback 1: %s\nFallback 2: %s\nUser agent: %s\nNTP server: %s",
                 Settings.Global.getString(getContentResolver(), ConnectivityManager.CAPTIVE_PORTAL_HTTPS_URL),
                 Settings.Global.getString(getContentResolver(), ConnectivityManager.CAPTIVE_PORTAL_HTTP_URL),
                 Settings.Global.getString(getContentResolver(), ConnectivityManager.CAPTIVE_PORTAL_FALLBACK_URL),
                 Settings.Global.getString(getContentResolver(), ConnectivityManager.CAPTIVE_PORTAL_OTHER_FALLBACK_URLS),
-                userAgent != null ? userAgent : this.userAgent);
+                userAgent != null ? userAgent : this.userAgent,
+                ConnectivityManager.getNtpServer(this));
     }
 }
