@@ -9,3 +9,7 @@ Control how Android detects captive portal.
 - Set captive portal servers (with presets from [GrapheneOS](https://grapheneos.org/faq#default-connections), [Kuketz](https://www.kuketz-blog.de/empfehlungsecke/#captive-portal) and Google)
 - A quick setting tile to toggle captive portal detection
 - Less than 100KB app as you don't need to use it frequently.
+
+## Grant permission WRITE_SECURE_SETTINGS via adb
+adb shell
+pm grant io.github.muntashirakon.captiveportalcontroller android.permission.WRITE_SECURE_SETTINGS
